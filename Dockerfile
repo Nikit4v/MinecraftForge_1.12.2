@@ -1,6 +1,6 @@
-FROM itzg/minecraft-server
-SHELL [ "/bin/bash", "-c" ]
-COPY .env /.env
-RUN export $(cat /.env | xargs)
-ENTRYPOINT [ "/start" ]
-HEALTHCHECK --start-period=1m CMD mc-health
+FROM python:latest
+RUN pip install boto3
+COPY get-mods/* /
+WORKDIR /
+VOLUME [ "/data" ]
+CMD ["python", "main.py"]

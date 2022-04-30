@@ -17,7 +17,7 @@ s3 = session.client(
     aws_access_key_id=env['AWS_ACCESS_KEY_ID'],
     config=my_config
 )
-
+os.makedirs(env['TARGET_DIR'], exist_ok=True)
 for key in filter(lambda x: x["Key"].startswith(env["PROJECT_NAME"]) and x["Size"], s3.list_objects(Bucket='mods-bucket')['Contents']):
     resp = s3.get_object(Bucket='mods-bucket',Key=key["Key"])
     open(env["TARGET_DIR"] + (key["Key"].lstrip(env["PROJECT_NAME"])), "wb").write(resp["Body"].read())
